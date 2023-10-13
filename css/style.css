@@ -12,7 +12,6 @@ body {
 	background-repeat: repeat-x;
 }
 
-
 #con {
 	width: 960px;
 	margin: auto;
@@ -36,9 +35,6 @@ a:hover {
 	color: #139DFF;
 }
 
-
-/* header */
-
 header {
 	width: 960px;
 	height: 89px;
@@ -56,9 +52,6 @@ header h1 {
 	text-align: left;
 	line-height: 1.2;
 }
-
-
-/* nav */
 
 #nav_f {
 	width: 190px;
@@ -171,7 +164,7 @@ footer {
 	height: 56px;
 	margin: 0 auto;
 	padding: 0 auto;
-	font-size: 12px;
+	font-size: 16px;
 	color: #FFF;
 	clear: both;
 	background-color: #00a497;
@@ -337,4 +330,10 @@ blockquote {
 
 blockquote p {
 	text-indent: 0;
+}
+
+.slogan-tit {
+	font-family: "Montserrat";
+	font-weight: bold;
+	font-size: 50px;
 }
