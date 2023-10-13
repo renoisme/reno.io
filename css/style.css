@@ -160,7 +160,7 @@ ul#nav1 li a:hover:after {
 
 
 footer {
-	width: auto;
+	width: 100%;
 	height: 56px;
 	margin: 0 auto;
 	padding: 0 auto;
@@ -169,14 +169,20 @@ footer {
 	clear: both;
 	background-color: #00a497;
 	background-repeat: repeat-x;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 #footer_color {
 	width: 960px;
 	height: 56px;
 	margin: 0 auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
-
 
 #top {
 	width: 750px;
@@ -338,58 +344,45 @@ blockquote p {
 	font-size: 50px;
 }
 
-
-/* レスポンシブスタイル - スマートフォン */
 @media (max-width: 768px) {
 	body {
 		font-size: 14px;
-		/* フォントサイズを小さくする */
 	}
 
 	#con {
 		width: 100%;
-		/* コンテンツ幅を100%に調整 */
 	}
 
 	#nav_f {
 		width: 100%;
-		/* ナビゲーション幅を100%に調整 */
 		float: none;
-		/* floatを解除 */
 	}
 
 	nav {
 		width: 100%;
-		/* ナビゲーション幅を100%に調整 */
 		margin-bottom: 20px;
-		/* 下部の余白を追加 */
 	}
 
 	ul#nav1 li {
 		width: 100%;
-		/* ナビゲーションリスト幅を100%に調整 */
 	}
 
 	ul#nav1 a {
 		width: 100%;
-		/* ナビゲーションリンク幅を100%に調整 */
 		padding: 12px 17px 10px;
 	}
 
 	ul#nav1 li a:before,
 	ul#nav1 li a:after {
 		display: none;
-		/* 四角形を非表示にする */
 	}
 
 	#link {
 		width: 100%;
-		/* リンクセクション幅を100%に調整 */
 	}
 
 	#footer_color {
 		width: 100%;
-		/* フッターカラー幅を100%に調整 */
 	}
 
 	#top,
@@ -397,19 +390,16 @@ blockquote p {
 	#about,
 	#main {
 		width: 100%;
-		/* メインコンテンツ幅を100%に調整 */
 		margin: 0;
 	}
 
 	#main h1 {
 		width: 100%;
-		/* メインタイトル幅を100%に調整 */
 		padding: 24px 0 20px 25px;
 	}
 
 	h2 {
 		width: 100%;
-		/* セクションタイトル幅を100%に調整 */
 		margin: 30px 0 10px;
 	}
 
