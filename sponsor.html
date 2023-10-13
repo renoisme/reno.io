@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <title>SCN Project</title>
   <link href="css/style.css" rel="stylesheet" media="all">
+  <link rel="icon" href="https://github.com/SCN-Project/Logo-Data/blob/main/PNG/logo-512%20512.PNG?raw=true">
 </head>
 
 <body>
@@ -23,14 +24,20 @@
     </div>
     <div id="main">
       <h1>sponsor</h1>
-      <h2 class="mt0">さくらインターネット株式会社 様</h2>
-      <p>
+      <div id="top"><img src="image/sponsor-sakura.png" alt="Clickable image" onclick="redirect()" class="image-link"
+          id="redirectImage"></div>
+      <p1>
+        さくらインターネット株式会社　様<br>
         各種サーバーの提供・技術面でのアドバイス
-      </p>
+      </p1>
       </ol>
-      <div id="top"><img src="image/sponsor-sakura.png" alt="" width="570" height="162"></div>
     </div>
   </div>
+  <script>
+    document.getElementById('redirectImage').onclick = function () {
+      window.open('https://www.sakura.ad.jp/', '_blank');
+    };
+  </script>
   <footer>
     <div id="footer_color">
       <p><br>© SCN project 2023</p>
