@@ -53,6 +53,22 @@
             top: 10px;
             left: 10px;
         }
+
+        @media (max-width: 600px) {
+            button {
+                padding: 15px 30px;
+                font-size: 25px;
+            }
+
+            .container {
+                padding: 20%;
+            }
+
+            #dice,
+            #fortune {
+                font-size: 70px;
+            }
+        }
     </style>
 </head>
 
@@ -70,11 +86,11 @@
     </div>
 
     <script>
-        var originalBackgroundColor = document.body.style.backgroundColor;
+        let originalBackgroundColor = document.body.style.backgroundColor;
 
         function rollDice() {
-            var dice = document.getElementById('dice');
-            var result = Math.floor(Math.random() * 6) + 1;
+            let dice = document.getElementById('dice');
+            let result = Math.floor(Math.random() * 6) + 1;
 
             dice.textContent = result;
 
@@ -82,16 +98,16 @@
         }
 
         function drawFortune() {
-            var fortunes = ["大吉", "中吉", "小吉", "末吉", "大当たり"];
-            var fortune = document.getElementById('fortune');
+            let fortunes = ["大吉", "中吉", "小吉", "末吉", "大当たり"];
+            let fortune = document.getElementById('fortune');
 
-            var result = fortunes[Math.floor(Math.random() * (fortunes.length - 1))]; // Exclude "大当たり" from the random selection
+            let result = fortunes[Math.floor(Math.random() * (fortunes.length - 1))];
             fortune.textContent = result;
 
             if (result === "大当たり") {
                 fortune.style.fontSize = "90px";
                 document.body.style.backgroundColor = "red";
-                var intervalId = setInterval(function () {
+                let intervalId = setInterval(function () {
                     document.body.style.backgroundColor = document.body.style.backgroundColor === "red" ? "orange" : "red";
                 }, 100);
                 setTimeout(function () {
@@ -106,23 +122,20 @@
         }
 
         function openContainer(containerId) {
-            var container = document.getElementById(containerId + '-container');
+            let container = document.getElementById(containerId + '-container');
             container.style.display = 'block';
 
-            // Disable the buttons
             document.getElementById('dice-button').disabled = true;
             document.getElementById('fortune-button').disabled = true;
         }
 
         function closeContainer(containerId) {
-            var container = document.getElementById(containerId + '-container');
+            let container = document.getElementById(containerId + '-container');
             container.style.display = 'none';
 
-            // Enable the buttons
             document.getElementById('dice-button').disabled = false;
             document.getElementById('fortune-button').disabled = false;
 
-            // Reset the background color if necessary
             if (document.body.style.backgroundColor !== originalBackgroundColor) {
                 document.body.style.backgroundColor = originalBackgroundColor;
             }
