@@ -105,22 +105,20 @@ li {
 }
 
 .button005 a {
-    border-radius: 3px;
-    position: relative;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin: 0 auto;
-    max-width: 220px;
-    padding: 10px 25px;
-    color: #FFF;
-    transition: 0.3s ease-in-out;
+    transition: background 0.3s ease-in-out, color 0.3s ease-in-out, border 0.3s ease-in-out;
     font-weight: 600;
-    background: rgb(149, 202, 252);
-    background: linear-gradient(270deg, rgba(149, 202, 252, 1) 0%, rgba(107, 182, 255, 1) 100%);
+    padding: 10px 25px;
+    max-width: 220px;
+    margin: 0 auto;
+    justify-content: space-around;
+    display: flex;
+    list-style: none;
+    color: #00a497;
+    border: 1px solid #00a497;
+    background-color: transparent;
 }
 
 .button005 a:hover {
-    background: rgb(117, 188, 255);
-    background: linear-gradient(270deg, rgba(117, 188, 255, 1) 0%, rgba(62, 159, 252, 1) 100%);
+    background: #00a497;
+    color: #FFF;
 }
