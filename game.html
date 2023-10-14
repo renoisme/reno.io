@@ -21,22 +21,31 @@
             margin-top: 20%;
             transition: all 0.5s ease;
             padding: 20px;
-
-            /* 枠線を追加 */
             background-color: #fff;
-            /* 背景色を白に設定 */
         }
 
-        /* スマートフォン向けのスタイル */
+        button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #007BFF;
+            color: #fff;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+            &:hover {
+                background-color: #0056b3;
+            }
+        }
+
         @media (max-width: 768px) {
 
             #dice,
             #fortune {
                 font-size: 30px;
                 margin-top: 10%;
-                /* マージンを調整 */
-                padding: 10px;
-                /* パディングを調整 */
+                padding: 20px;
             }
         }
 
