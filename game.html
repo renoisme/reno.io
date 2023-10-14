@@ -94,14 +94,16 @@
             let fortune = document.getElementById('fortune');
 
             let randomValue = Math.random();
+            /*
             if (randomValue < 0.025) {
                 fortune.textContent = "大当たり";
             } else {
                 let result = fortunes[Math.floor(Math.random() * (fortunes.length - 1))];
                 fortune.textContent = result;
             }
+            */
 
-            if (fortune.textContent = "大当たり") {
+            if (fortune.textContent === "大当たり") {
                 fortune.style.fontSize = "90px";
                 document.body.style.backgroundColor = "red";
                 let intervalId = setInterval(function () {
