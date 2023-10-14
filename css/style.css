@@ -101,7 +101,8 @@ ul#nav1 a:visited {
 }
 
 ul#nav1 a:active,
-ul#nav1 a:hover {
+ul#nav1 a:hover,
+ul#nav1 a:focus {
 	color: #FFF;
 	border: 1px solid #00a497;
 	background-color: #00a497;
@@ -141,6 +142,12 @@ ul#nav1 li a:hover:before {
 
 ul#nav1 li a:hover:after {
 	background: #00a497;
+}
+
+ul#nav1 a.active {
+	color: #FFF;
+	background-color: #00a497;
+	border: 1px solid #00a497;
 }
 
 #link {
@@ -193,6 +200,7 @@ footer {
 	margin: 0 0 15px;
 	float: right;
 }
+
 
 #news {
 	width: 750px;
