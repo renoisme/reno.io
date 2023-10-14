@@ -108,11 +108,18 @@
         }
 
         function drawFortune() {
-            // let fortunes = ["大吉", "中吉", "小吉", "末吉", "大当たり"];
-            let fortunes = ["大当たり", "大当たり", "大当たり", "大当たり", "大当たり"];
-            let fortune = document.getElementById('fortune');
+            let fortunes = ["大吉", "中吉", "小吉", "末吉", "大当たり"];
 
-            let result = fortunes[Math.floor(Math.random() * (fortunes.length - 1))];
+            let fortune = document.getElementById('fortune');
+            let randomNumber = Math.random() * 100;
+            let result;
+
+            if (randomNumber < 2.5) {
+                result = "大当たり";
+            } else {
+                result = fortunes[Math.floor(Math.random() * (fortunes.length - 1))];
+            }
+
             fortune.textContent = result;
 
             if (result === "大当たり") {
@@ -131,6 +138,7 @@
 
             openContainer('fortune');
         }
+
 
         function openContainer(containerId) {
             let container = document.getElementById(containerId + '-container');
