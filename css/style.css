@@ -21,7 +21,7 @@ body {
 }
 
 a:link {
-	color: #0129BC;
+	color: #000;
 }
 
 a:visited {
@@ -162,7 +162,7 @@ ul#nav1 a.active {
 	padding: 7px 3px 0;
 	text-indent: 0;
 	color: #0237C1;
-	border-top: 4px solid #0129BC;
+	border-top: 4px solid #0237C1;
 	font-size: 15px;
 }
 
