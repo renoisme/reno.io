@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body {
             display: flex;
@@ -19,6 +20,8 @@
             text-align: center;
             margin-top: 20%;
             transition: all 0.5s ease;
+            padding: 20px;
+            background-color: #fff;
         }
 
         .container {
@@ -38,35 +41,27 @@
             right: 10px;
         }
 
-        button {
-            padding: 10px 20px;
-            border: none;
-            background-color: #007BFF;
-            color: #fff;
-            font-size: 20px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
         #home-button {
             position: absolute;
             top: 10px;
             left: 10px;
         }
 
-        @media (max-width: 600px) {
-            button {
-                padding: 15px 30px;
-                font-size: 25px;
-            }
-
-            .container {
-                padding: 20%;
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
             }
 
             #dice,
             #fortune {
-                font-size: 70px;
+                font-size: 30px;
+            }
+
+            button {
+                padding: 10px 15px;
+                font-size: 16px;
+                display: block;
+                margin: 10px auto;
             }
         }
     </style>
@@ -84,10 +79,8 @@
         <button onclick="closeContainer('fortune')">✖</button>
         <div id="fortune"></div>
     </div>
-
     <script>
         let originalBackgroundColor = document.body.style.backgroundColor;
-
         function rollDice() {
             let dice = document.getElementById('dice');
             let result = Math.floor(Math.random() * 6) + 1;
@@ -96,15 +89,19 @@
 
             openContainer('dice');
         }
-
         function drawFortune() {
             let fortunes = ["大吉", "中吉", "小吉", "末吉", "大当たり"];
             let fortune = document.getElementById('fortune');
 
-            let result = fortunes[Math.floor(Math.random() * (fortunes.length - 1))];
-            fortune.textContent = result;
+            let randomValue = Math.random();
+            if (randomValue < 0.025) {
+                fortune.textContent = "大当たり";
+            } else {
+                let result = fortunes[Math.floor(Math.random() * (fortunes.length - 1))];
+                fortune.textContent = result;
+            }
 
-            if (result === "大当たり") {
+            if (fortune.textContent === "大当たり") {
                 fortune.style.fontSize = "90px";
                 document.body.style.backgroundColor = "red";
                 let intervalId = setInterval(function () {
@@ -120,6 +117,7 @@
 
             openContainer('fortune');
         }
+
 
         function openContainer(containerId) {
             let container = document.getElementById(containerId + '-container');
