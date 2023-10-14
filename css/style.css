@@ -345,6 +345,7 @@ hr {
 	font-family: "Montserrat";
 	font-weight: bold;
 	font-size: 50px;
+	text-decoration: none;
 }
 
 .responsive {
@@ -359,6 +360,12 @@ hr {
 #imageContainer {
 	text-align: center;
 }
+
+#redirectImage {
+	width: 200px;
+	height: 200px;
+}
+
 
 @media (max-width: 768px) {
 	body {
