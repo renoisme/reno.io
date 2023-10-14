@@ -24,7 +24,6 @@
         <ul id="nav1">
           <li><a href="index.html" class="active">Home</a></li>
           <li><a href="sponsor.html">Sponsor</a></li>
-          <li><a href="access.html">SNS</a></li>
           <li><a href="privacy.html">Policy</a></li>
         </ul>
       </nav>
@@ -32,10 +31,24 @@
     <div id="main">
       <p class="slogan-tit">Go Adventure.</p>
       <div id="about">
-        <h2 class="mt0">ABOUT</h2>
+        <h2 class="mt0">Purpose</h2>
         <p>
           私達はクリエイティブの喜びを大切にし、より良いサービスを提供することを常に目標としています。
           開発メンバーのやりたいことを可能な限り実現し、それを利用者の皆様に提供して参ります。
+        </p>
+        <h2>SNS</h2>
+        <div class="service-logo" onclick="redirectToService('discord')">
+          <img src="./image/discord.png" width="40" alt="Discord">
+        </div>
+        <div class="service-logo" onclick="redirectToService('github')">
+          <img src="./image/github.png" width="40" alt="Github">
+        </div>
+        <div class="service-logo" onclick="redirectToService('x')">
+          <img src="./image/x.jpg" width="40" alt="X">
+        </div>
+        <div class="service-logo" onclick="redirectToService('note')">
+          <img src="./image/note.png" width="40" alt="Note">
+        </div>
       </div>
       <div id="news">
         <h3 class="top">Notice</h3>
@@ -45,6 +58,22 @@
       </div>
     </div>
   </div>
+  <script>
+    function redirectToService(serviceName) {
+      // リダイレクト先URLをサービス名に基づいて設定
+      let redirectURL = '';
+      if (serviceName === 'x') {
+        redirectURL = 'https://x.com/SCN_Project';
+      } else if (serviceName === 'github') {
+        redirectURL = 'https://github.com/scn-project';
+      } else if (serviceName === 'note') {
+        redirectURL = 'https://note.com/SCN-Project';
+      }
+
+      // リダイレクトを実行
+      window.open(redirectURL, '_blank');
+    }
+  </script>
   <footer>
     <div id="footer_color">
       <p>© SCN Project 2023</p>
