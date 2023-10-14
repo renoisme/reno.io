@@ -39,16 +39,6 @@
             }
         }
 
-        @media (max-width: 768px) {
-
-            #dice,
-            #fortune {
-                font-size: 30px;
-                margin-top: 10%;
-                padding: 20px;
-            }
-        }
-
         .container {
             display: none;
             position: fixed;
@@ -68,6 +58,8 @@
             #dice,
             #fortune {
                 font-size: 30px;
+                margin-top: 10%;
+                padding: 45px;
             }
 
             button {
@@ -124,7 +116,7 @@
             fortune.textContent = result;
 
             if (result === "大当たり") {
-                fortune.style.fontSize = "90px";
+                fortune.style.fontSize = "75px";
                 document.body.style.backgroundColor = "red";
                 let intervalId = setInterval(function () {
                     document.body.style.backgroundColor = document.body.style.backgroundColor === "red" ? "orange" : "red";
