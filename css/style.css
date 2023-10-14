@@ -25,7 +25,7 @@ a:link {
 }
 
 a:visited {
-	color: #0129BC;
+	color: #000;
 }
 
 a:active {
@@ -351,7 +351,13 @@ hr {
 	width: 100%;
 	max-width: 400px;
 	height: auto;
-	cursor: pointer;
+	display: block;
+	margin-left: 10px;
+	margin-right: auto;
+}
+
+#imageContainer {
+	text-align: center;
 }
 
 @media (max-width: 768px) {
