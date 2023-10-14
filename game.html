@@ -21,7 +21,23 @@
             margin-top: 20%;
             transition: all 0.5s ease;
             padding: 20px;
+
+            /* 枠線を追加 */
             background-color: #fff;
+            /* 背景色を白に設定 */
+        }
+
+        /* スマートフォン向けのスタイル */
+        @media (max-width: 768px) {
+
+            #dice,
+            #fortune {
+                font-size: 30px;
+                margin-top: 10%;
+                /* マージンを調整 */
+                padding: 10px;
+                /* パディングを調整 */
+            }
         }
 
         .container {
@@ -33,18 +49,6 @@
             border: 1px solid #000;
             padding: 10%;
             background-color: #fff;
-        }
-
-        .container button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-
-        #home-button {
-            position: absolute;
-            top: 10px;
-            left: 10px;
         }
 
         @media (max-width: 768px) {
@@ -63,6 +67,18 @@
                 display: block;
                 margin: 10px auto;
             }
+        }
+
+        .container button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        #home-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
         }
     </style>
 </head>
@@ -85,26 +101,20 @@
             let dice = document.getElementById('dice');
             let result = Math.floor(Math.random() * 6) + 1;
 
-            dice.textContent = result;
+            dice.textContent = result; // 結果を表示
 
             openContainer('dice');
         }
+
         function drawFortune() {
             //let fortunes = ["大吉", "中吉", "小吉", "末吉", "大当たり"];
             let fortunes = ["大当たり", "大当たり", "大当たり", "大当たり", "大当たり"];
             let fortune = document.getElementById('fortune');
 
-            let randomValue = Math.random();
-            /*
-            if (randomValue < 0.025) {
-                fortune.textContent = "大当たり";
-            } else {
-                let result = fortunes[Math.floor(Math.random() * (fortunes.length - 1))];
-                fortune.textContent = result;
-            }
-            */
+            let result = fortunes[Math.floor(Math.random() * (fortunes.length - 1))];
+            fortune.textContent = result;
 
-            if (fortune.textContent === "大当たり") {
+            if (result === "大当たり") {
                 fortune.style.fontSize = "90px";
                 document.body.style.backgroundColor = "red";
                 let intervalId = setInterval(function () {
@@ -120,7 +130,6 @@
 
             openContainer('fortune');
         }
-
 
         function openContainer(containerId) {
             let container = document.getElementById(containerId + '-container');
