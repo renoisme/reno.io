@@ -2,8 +2,10 @@
 <html>
 
 <head>
-    <title>QR Code Generator</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>SCN Project</title>
+    <link rel="icon"
+        href="https://raw.githubusercontent.com/SCN-Project/Logo-Data/9862fc9e514e05e717863c5054b2801e8f258974/PNG/Type-1%202.svg">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -29,7 +31,6 @@
 
         #button-container {
             display: flex;
-            /* ボタンを横に並べるための flex コンテナ */
             margin-top: 10px;
         }
 
@@ -220,9 +221,9 @@
                 let inputVal = $('#qr-input').val();
                 if (inputVal == 0) return;
                 let qrSize = $('#qr-size').val();
-                $('#loading').show(); //
+                $('#loading').show();
 
-                $('#loader').show(); // ロード表示を表示
+                $('#loader').show();
                 let intervalId = setInterval(rotateLoadingImage, 10);
                 $('#qr-img').remove();
                 let img = $('<img />', {
@@ -233,7 +234,7 @@
 
                 img.on('load', function () {
 
-                    $('#loading').hide(); // ロード表示を非表示
+                    $('#loading').hide();
                     clearInterval(intervalId);
                     img.appendTo('#qr-result');
                     $('#close-button').show();
