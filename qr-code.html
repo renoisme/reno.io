@@ -5,105 +5,144 @@
     <title>QR Code Generator</title>
     <style>
         body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f2f2f2;
-            margin: 0;
-            /* Added to remove default margin */
+            background-color: #f0f0f0;
         }
 
-        #content {
+        #qr-input {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        #generate-button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+
+        #qr-container {
             text-align: center;
-        }
-
-        #qrCode {
-            display: none;
-            margin-top: 15px;
-            border: 2px solid black;
-            padding: 15px;
             position: relative;
         }
 
-        #qrCode img {
-            max-width: 100%;
-        }
-
-        #closeButton,
-        #downloadButton {
-            position: absolute;
-            background-color: red;
-            color: white;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        #closeButton {
-            top: -10px;
-            right: -10px;
-        }
-
-        #downloadButton {
-            top: -10px;
-            right: 40px;
-        }
-
-        button {
-            padding: 10px 20px;
-            font-size: 18px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
+        #qr-result {
             background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #qr-result img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        #close-button {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            background-color: #007BFF;
+            border: none;
+            cursor: pointer;
+            display: none;
+        }
+
+        #download-button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            display: none;
+        }
+
+        label {
+            margin-top: 10px;
+        }
+
+        select {
+            margin-bottom: 10px;
         }
     </style>
 </head>
 
+
 <body>
-    <div id="content">
-        <input type="text" id="text-input" placeholder="テキストを入力してください">
-        <button id="generateButton" onclick="generateQR()">QRコードを生成</button>
-        <div id="qrCode">
-            <span id="closeButton" onclick="closeQR()">✖</span>
-            <img id="qrImg">
-            <a id="downloadLink" download="qrcode.png"><span id="downloadButton" onclick="downloadQR()">⬇</span></a>
+    <input type="text" id="qr-input" placeholder="Enter text for QR code">
+    <button id="generate-button">QRコードを作成</button>
+    <label for="qr-size">QRコードのサイズ設定</label>
+    <select id="qr-size">
+        <option value="100">小さい</option>
+        <option value="200">普通</option>
+        <option value="300">大きい</option>
+    </select>
+    <div id="qr-container">
+        <div id="qr-result">
+            <img id="qr-img">
         </div>
+        <button id="close-button">X</button>
+        <a id="download-button" download="qr-code.png">ダウンロード</a>
     </div>
 
+    <div id="loading" style="display: none;">
+        <img src="/image/road.png" alt="Loading..." id="loading-image" style="width: 100px; height: 100px;">
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        function generateQR() {
-            var text = document.getElementById("text-input").value;
-            var url = "https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=" + text + "&choe=UTF-8";
+        let rotation = 0;
+        let loadingImage = $('#loading-image');
 
-            document.getElementById("qrImg").src = url;
-
-            // Set the download link
-            document.getElementById("downloadLink").href = url;
-
-            document.getElementById("qrCode").style.display = "block";
-
-            document.getElementById("generateButton").disabled = true; // Disable the button
-        }
-
-        function closeQR() {
-            document.getElementById("qrCode").style.display = "none";
-            document.getElementById("qrImg").src = "";
-            document.getElementById("text-input").value = ""; // Clear the input field
-            document.getElementById("generateButton").disabled = false; // Enable the button
-        }
-
-        function downloadQR() {
-            var downloadLink = document.getElementById("downloadLink");
-            var event = new MouseEvent('click', {
-                'view': window,
-                'bubbles': true,
-                'cancelable': true
+        function rotateLoadingImage() {
+            rotation += 90;
+            loadingImage.css({
+                transform: 'rotate(' + rotation + 'deg)'
             });
-            downloadLink.dispatchEvent(event);
         }
+
+        $(document).ready(function () {
+            $('#generate-button').click(function () {
+                let inputVal = $('#qr-input').val();
+                if (inputVal == 0) return;
+                let qrSize = $('#qr-size').val();
+                $('#loading').show();
+                let intervalId = setInterval(rotateLoadingImage, 10);
+                console.log(inputVal.length)
+                $('#qr-img').remove();
+                let img = $('<img />', {
+                    id: 'qr-img',
+                    src: 'https://api.qrserver.com/v1/create-qr-code/?data=' + inputVal + '&size=' + qrSize + 'x' + qrSize,
+                    alt: ''
+                });
+
+                img.on('load', function () {
+                    $('#loading').hide();
+                    clearInterval(intervalId);
+                    img.appendTo('#qr-result');
+                    $('#download-button').attr('href', img.attr('src')).show();
+                    $('#close-button').show();
+                });
+            });
+
+            $('#close-button').click(function () {
+                $('#qr-img').remove();
+                $('#download-button').hide();
+                $('#close-button').hide();
+            });
+        });
     </script>
 </body>
 
