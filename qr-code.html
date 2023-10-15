@@ -216,7 +216,6 @@
                 transform: 'rotate(' + rotation + 'deg)'
             });
         }
-
         $(document).ready(function () {
             $('#generate-button').click(function () {
                 let inputVal = $('#qr-input').val();
@@ -241,6 +240,15 @@
                     $('#close-button').show();
                     $('#download-button').show().attr('href', img.attr('src'));
                 });
+            });
+            $('#download-button').click(function () {
+                let qrImgSrc = $('#qr-img').attr('src');
+                let a = document.createElement('a');
+                a.href = qrImgSrc;
+                a.download = 'qr-code.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
             });
 
             $('#close-button').click(function () {
