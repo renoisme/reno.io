@@ -250,26 +250,26 @@
                 $('#close-button').hide();
             });
         });
+
         function downloadImg() {
             const url = $('#qr-img').attr('src');
-            console.log(url);
-            const fileName = 'img.png';
-            if (window.navigator.msSaveOrOpenBlob) {
-                let xhr = new XMLHttpRequest();
-                xhr.open('GET', url);
-                xhr.responseType = 'blob';
-                xhr.onload = function () {
-                    if (xhr.status !== 200) {
-                        return false;
-                    }
-                    window.navigator.msSaveOrOpenBlob(xhr.response, fileName);
-                }
-                xhr.send();
-            } else {
-                let link = document.getElementById("download-button");
-                link.href = url;
-                link.download = fileName;
-            }
+            const fileName = 'qr-code.png';
+
+            fetch(url)
+                .then(response => response.blob())
+                .then(blob => {
+                    const a = document.createElement('a');
+                    const url = window.URL.createObjectURL(blob);
+                    a.href = url;
+                    a.download = fileName;
+                    a.style.display = 'none';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(error => {
+                    console.error('画像のダウンロードに失敗しました: ', error);
+                });
         }
     </script>
 </body>
