@@ -20,14 +20,14 @@
 
 <body>
     <div id="content">
-        <input type="text" id="text-input" placeholder="テキストを入力してください">
-        <button onclick="generateQR()">QRコードを生成</button>
+        <input type="text" id="text" placeholder="テキストを入力してください">
+        <button onclick="gQ()">QRコードを生成</button>
         <img id="qrCode">
     </div>
 
     <script>
-        function generateQR() {
-            let text = document.getElementById("text-input").value;
+        function gQ() {
+            let text = document.getElementById("text").value;
             let url = "https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=" + text + "&choe=UTF-8";
             document.getElementById("qrCode").src = url;
         }
