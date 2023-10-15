@@ -76,11 +76,33 @@
         select {
             margin-bottom: 10px;
         }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #007BFF;
+            color: #fff;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+            &:hover {
+                background-color: #0056b3;
+            }
+        }
+
+        #home-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
     </style>
 </head>
 
 
 <body>
+    <button id="home-button" onclick="window.location.href='index.html'">ホームに戻る</button>
     <input type="text" id="qr-input" placeholder="Enter text for QR code">
     <button id="generate-button">QRコードを作成</button>
     <label for="qr-size">QRコードのサイズ設定</label>
