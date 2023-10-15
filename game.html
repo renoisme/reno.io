@@ -88,6 +88,7 @@
     <button id="home-button" onclick="window.location.href='index.html'">ホームに戻る</button>
     <button id="dice-button" onclick="rollDice()">サイコロを振る</button>
     <button id="fortune-button" onclick="drawFortune()" style="margin-left:10px;">おみくじを引く</button>
+    <button id="qr-code-button" onclick="createQRCode()" style="margin-left:10px;">QRコード作成</button>
     <div id="dice-container" class="container">
         <button onclick="closeContainer('dice')">✖</button>
         <div id="dice"></div>
@@ -98,6 +99,9 @@
     </div>
     <script>
         let originalBackgroundColor = document.body.style.backgroundColor;
+        function createQRCode() {
+            window.location.href = 'qr-code.html';
+        }
         function rollDice() {
             let dice = document.getElementById('dice');
             let result = Math.floor(Math.random() * 6) + 1;
