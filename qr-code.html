@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>れのプロジェクト</title>
+    <title>QR Code Generator</title>
     <style>
         body {
             display: flex;
@@ -10,26 +10,99 @@
             align-items: center;
             height: 100vh;
             background-color: #f2f2f2;
+            margin: 0;
+            /* Added to remove default margin */
+        }
+
+        #content {
+            text-align: center;
         }
 
         #qrCode {
+            display: none;
             margin-top: 15px;
+            border: 2px solid black;
+            padding: 15px;
+            position: relative;
+        }
+
+        #qrCode img {
+            max-width: 100%;
+        }
+
+        #closeButton,
+        #downloadButton {
+            position: absolute;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        #closeButton {
+            top: -10px;
+            right: -10px;
+        }
+
+        #downloadButton {
+            top: -10px;
+            right: 40px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ddd;
         }
     </style>
 </head>
 
 <body>
     <div id="content">
-        <input type="text" id="text" placeholder="テキストを入力してください">
-        <button onclick="gQ()">QRコードを生成</button>
-        <img id="qrCode">
+        <input type="text" id="text-input" placeholder="テキストを入力してください">
+        <button id="generateButton" onclick="generateQR()">QRコードを生成</button>
+        <div id="qrCode">
+            <span id="closeButton" onclick="closeQR()">✖</span>
+            <img id="qrImg">
+            <a id="downloadLink" download="qrcode.png"><span id="downloadButton" onclick="downloadQR()">⬇</span></a>
+        </div>
     </div>
 
     <script>
-        function gQ() {
-            let text = document.getElementById("text").value;
-            let url = "https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=" + text + "&choe=UTF-8";
-            document.getElementById("qrCode").src = url;
+        function generateQR() {
+            var text = document.getElementById("text-input").value;
+            var url = "https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=" + text + "&choe=UTF-8";
+
+            document.getElementById("qrImg").src = url;
+
+            // Set the download link
+            document.getElementById("downloadLink").href = url;
+
+            document.getElementById("qrCode").style.display = "block";
+
+            document.getElementById("generateButton").disabled = true; // Disable the button
+        }
+
+        function closeQR() {
+            document.getElementById("qrCode").style.display = "none";
+            document.getElementById("qrImg").src = "";
+            document.getElementById("text-input").value = ""; // Clear the input field
+            document.getElementById("generateButton").disabled = false; // Enable the button
+        }
+
+        function downloadQR() {
+            var downloadLink = document.getElementById("downloadLink");
+            var event = new MouseEvent('click', {
+                'view': window,
+                'bubbles': true,
+                'cancelable': true
+            });
+            downloadLink.dispatchEvent(event);
         }
     </script>
 </body>
