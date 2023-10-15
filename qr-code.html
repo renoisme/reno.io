@@ -3,6 +3,7 @@
 
 <head>
     <title>QR Code Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,7 +13,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             background-color: #f0f0f0;
         }
 
@@ -21,90 +22,167 @@
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ddd;
+            width: 80%;
+            max-width: 300px;
+            font-size: 16px;
+        }
+
+        #button-container {
+            display: flex;
+            /* ボタンを横に並べるための flex コンテナ */
+            margin-top: 10px;
         }
 
         #generate-button {
-            padding: 10px 20px;
+            flex: 1;
+            padding: 20px 40px;
             border-radius: 5px;
             border: none;
             background-color: #007BFF;
             color: white;
+            font-size: 16px;
             cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #download-button,
+        #close-button {
+            flex: 1;
+            padding: 20px 30px;
+            border-radius: 5px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            font-size: 15px;
+            transition: background-color 0.3s;
+            display: none;
+            white-space: nowrap;
         }
 
         #qr-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
-            position: relative;
         }
 
         #qr-result {
-            background-color: #ddd;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #qr-result img {
-            max-width: 100%;
-            max-height: 100%;
-        }
-
-        #close-button {
-            position: absolute;
-            right: 10px;
-            top: 10px;
-            background-color: #007BFF;
-            border: none;
-            cursor: pointer;
-            display: none;
-        }
-
-        #download-button {
-            padding: 10px 20px;
-            border-radius: 5px;
-            border: none;
-            background-color: #007BFF;
-            color: white;
-            cursor: pointer;
-            display: none;
-        }
-
-        label {
-            margin-top: 10px;
+            transform: scaleX(-1);
         }
 
         select {
             margin-bottom: 10px;
-        }
-
-        button {
-            padding: 10px 15px;
-            border: none;
-            background-color: #007BFF;
-            color: #fff;
-            font-size: 16px;
+            padding: 10px;
             border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-
-            &:hover {
-                background-color: #0056b3;
-            }
+            border: 1px solid #ddd;
+            width: 80%;
+            max-width: 300px;
+            font-size: 16px;
         }
 
         #home-button {
             position: absolute;
             top: 10px;
             left: 10px;
+            background-color: #007BFF;
+            border: none;
+            cursor: pointer;
+            padding: 20px;
+            border-radius: 5px;
+            color: white;
+        }
+
+        label,
+        select {
+            margin: 10px 0;
+        }
+
+        .loader,
+        .loader:before,
+        .loader:after {
+            border-radius: 50%;
+            width: 2.5em;
+            height: 2.5em;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+            -webkit-animation: load7 1.8s infinite ease-in-out;
+            animation: load7 1.8s infinite ease-in-out;
+        }
+
+        .loader {
+            color: #000;
+            font-size: 10px;
+            margin: 80px auto;
+            position: relative;
+            text-indent: -9999em;
+            -webkit-transform: translateZ(0);
+            -ms-transform: translateZ(0);
+            transform: translateZ(0);
+            -webkit-animation-delay: -0.16s;
+            animation-delay: -0.16s;
+        }
+
+        .loader:before,
+        .loader:after {
+            content: '';
+            position: absolute;
+            top: 0;
+        }
+
+        .loader:before {
+            left: -3.5em;
+            -webkit-animation-delay: -0.32s;
+            animation-delay: -0.32s;
+        }
+
+        .loader:after {
+            left: 3.5em;
+        }
+
+        @-webkit-keyframes load7 {
+
+            0%,
+            80%,
+            100% {
+                box-shadow: 0 2.5em 0 -1.3em;
+            }
+
+            40% {
+                box-shadow: 0 2.5em 0 0;
+            }
+        }
+
+        @keyframes load7 {
+
+            0%,
+            80%,
+            100% {
+                box-shadow: 0 2.5em 0 -1.3em;
+            }
+
+            40% {
+                box-shadow: 0 2.5em 0 0;
+            }
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
 
-
 <body>
     <button id="home-button" onclick="window.location.href='index.html'">ホームに戻る</button>
-    <input type="text" id="qr-input" placeholder="Enter text for QR code">
-    <button id="generate-button">QRコードを作成</button>
+    <input type="text" id="qr-input" placeholder="テキストを入力してQRコードを生成">
+    <div id="button-container">
+        <button id="generate-button">QRコードを作成</button>
+    </div>
     <label for="qr-size">QRコードのサイズ設定</label>
     <select id="qr-size">
         <option value="100">小さい</option>
@@ -115,12 +193,14 @@
         <div id="qr-result">
             <img id="qr-img">
         </div>
-        <button id="close-button">X</button>
-        <a id="download-button" download="qr-code.png">ダウンロード</a>
+    </div>
+    <div id="button-container" style="display: flex; justify-content: center;">
+        <button id="download-button" style="display: none;">保 存 </button>
+        <button id="close-button" style="display: none;">閉じる</button>
     </div>
 
     <div id="loading" style="display: none;">
-        <img src="/image/road.png" alt="Loading..." id="loading-image" style="width: 100px; height: 100px;">
+        <div class="loader">Loading...</div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -140,9 +220,10 @@
                 let inputVal = $('#qr-input').val();
                 if (inputVal == 0) return;
                 let qrSize = $('#qr-size').val();
-                $('#loading').show();
+                $('#loading').show(); //
+
+                $('#loader').show(); // ロード表示を表示
                 let intervalId = setInterval(rotateLoadingImage, 10);
-                console.log(inputVal.length)
                 $('#qr-img').remove();
                 let img = $('<img />', {
                     id: 'qr-img',
@@ -151,11 +232,12 @@
                 });
 
                 img.on('load', function () {
-                    $('#loading').hide();
+
+                    $('#loading').hide(); // ロード表示を非表示
                     clearInterval(intervalId);
                     img.appendTo('#qr-result');
-                    $('#download-button').attr('href', img.attr('src')).show();
                     $('#close-button').show();
+                    $('#download-button').show().attr('href', img.attr('src'));
                 });
             });
 
@@ -165,6 +247,7 @@
                 $('#close-button').hide();
             });
         });
+
     </script>
 </body>
 
