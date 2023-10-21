@@ -1,83 +1,22 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            text-align: center;
-        }
-        
-        #text {
-            margin-bottom: 20px;
-        }
-        
-        button {
-            margin: 5px;
-            padding: 10px 20px;
-            font-size: 1em;
-            border: none;
-            border-radius: 5px;
-            color: white;
-        }
-        
-        #copyButton {
-            background-color: #4CAF50;
-            /* Green */
-        }
-        
-        #shareButton {
-            background-color: #008CBA;
-            /* Blue */
-        }
-        
-        @media only screen and (max-width: 600px) {
-            button {
-                font-size: 0.8em;
-            }
-        }
-    </style>
-</head>
-
 <body>
-    <div id="text"></div>
-    <div>
-        <button id="copyButton">コピー</button>
-        <button id="shareButton">共有</button>
-    </div>
 
-    <script>
-        const textElement = document.getElementById('text');
-        const copyButton = document.getElementById('copyButton');
-        const shareButton = document.getElementById('shareButton');
+<h2 id="demo"></h2>
 
-        // URLのパスを取得し、最初の'/'を削除します
-        const path = window.location.pathname.substring(1);
-        console.log(path);
-        textElement.textContent = decodeURIComponent(path);
+<script>
+// Get the path from the URL
+var path = window.location.pathname;
 
-        copyButton.addEventListener('click', () => {
-            navigator.clipboard.writeText(textElement.textContent)
-                .then(() => alert('テキストがクリップボードにコピーされました'));
-        });
+// Remove the leading slash
+var message = path.substring(1);
 
-        shareButton.addEventListener('click', () => {
-            if (navigator.share) {
-                navigator.share({
-                        title: 'Share Text',
-                        text: textElement.textContent,
-                        url: window.location.href,
-                    }).then(() => console.log('Successful share'))
-                    .catch((error) => console.log('Error sharing', error));
-            } else {
-                alert('お使いのブラウザは共有APIをサポートしていません');
-            }
-        });
-    </script>
+// Decode the message
+var decodedMessage = decodeURIComponent(message);
+
+// Display the message
+document.getElementById("demo").innerHTML = decodedMessage;
+</script>
+
 </body>
-
 </html>
