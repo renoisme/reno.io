@@ -1,56 +1,83 @@
-<!DOCTYPE HTML>
-<html lang="ja">
+<!DOCTYPE html>
+<html>
 
 <head>
-  <meta charset="utf-8">
-  <title>SCN Project</title>
-  <link href="css/style.css" rel="stylesheet" media="all">
-  <link rel="icon"
-    href="https://raw.githubusercontent.com/SCN-Project/Logo-Data/9862fc9e514e05e717863c5054b2801e8f258974/PNG/Type-1%202.svg">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap');
-  </style>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+        
+        #text {
+            margin-bottom: 20px;
+        }
+        
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            color: white;
+        }
+        
+        #copyButton {
+            background-color: #4CAF50;
+            /* Green */
+        }
+        
+        #shareButton {
+            background-color: #008CBA;
+            /* Blue */
+        }
+        
+        @media only screen and (max-width: 600px) {
+            button {
+                font-size: 0.8em;
+            }
+        }
+    </style>
 </head>
 
 <body>
-  <div id="con">
-    <header id="header">
-      <h1>SCN Project（臨時簡易サイト）</h1>
-    </header>
-    <div id="nav_f">
-      <nav>
-        <ul id="nav1">
-          <li><a href="index.html" class="active">Home</a></li>
-          <li><a href="sponsor.html">Sponsor</a></li>
-          <li><a href="access.html">SNS</a></li>
-          <li><a href="partners.html">Partners</a></li>
-          <li><a href="privacy.html">Policy</a></li>
-        </ul>
-      </nav>
+    <div id="text"></div>
+    <div>
+        <button id="copyButton">コピー</button>
+        <button id="shareButton">共有</button>
     </div>
-    <div id="main">
-      <p><a class="slogan-tit" href="game.html">Go Adventure.</a></p>
-      <div id="about">
-        <h2 class="mt0">Purpose</h2>
-        <p>
-          私達はクリエイティブの喜びを大切にし、より良いサービスを提供することを常に目標としています。
-          開発メンバーのやりたいことを可能な限り実現し、それを利用者の皆様に提供して参ります。
-      </div>
-      <div id="news">
-        <h3 class="top">Notice</h3>
-        <ul>
-          <p>お知らせは０件です</p>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <footer>
-    <div id="footer_color">
-      <p>© SCN Project 2023</p>
-    </div>
-  </footer>
+
+    <script>
+        const textElement = document.getElementById('text');
+        const copyButton = document.getElementById('copyButton');
+        const shareButton = document.getElementById('shareButton');
+
+        // URLのパスを取得し、最初の'/'を削除します
+        const path = window.location.pathname.substring(1);
+        console.log(path);
+        textElement.textContent = decodeURIComponent(path);
+
+        copyButton.addEventListener('click', () => {
+            navigator.clipboard.writeText(textElement.textContent)
+                .then(() => alert('テキストがクリップボードにコピーされました'));
+        });
+
+        shareButton.addEventListener('click', () => {
+            if (navigator.share) {
+                navigator.share({
+                        title: 'Share Text',
+                        text: textElement.textContent,
+                        url: window.location.href,
+                    }).then(() => console.log('Successful share'))
+                    .catch((error) => console.log('Error sharing', error));
+            } else {
+                alert('お使いのブラウザは共有APIをサポートしていません');
+            }
+        });
+    </script>
 </body>
 
 </html>
