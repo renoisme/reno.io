@@ -1,22 +1,14 @@
 <!DOCTYPE html>
-<html>
-<body>
+<html ondragover="allowDrop(event)" ondrop="drop(event)">
 
-<h2 id="demo"></h2>
+<head>
+    <link href="styles/style.css" rel="stylesheet" />
+</head>
 
-<script>
-// Get the path from the URL
-var path = window.location.pathname;
-
-// Remove the leading slash
-var message = path.substring(1);
-
-// Decode the message
-var decodedMessage = decodeURIComponent(message);
-
-// Display the message
-document.getElementById("demo").innerHTML = decodedMessage;
-</script>
-
+<body ondragover="allowDrop(event)" ondrop="drop(event)">
+    <div id="output"></div>
+    <button id="delete_all">すべて削除</button>
+    <script src="/scripts/main.js"></script>
 </body>
+
 </html>
