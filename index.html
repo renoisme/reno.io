@@ -22,6 +22,8 @@
             cursor: pointer;
             overflow: hidden;
             margin-bottom: 20px;
+            user-select: none;
+            /* テキスト選択を禁止 */
         }
 
         #output {
@@ -91,6 +93,9 @@
     </div>
     <div id="output"></div>
     <button id="delete_all">すべて削除</button>
+
+    <!-- ファイルアップロードのためのinput要素 -->
+    <input type="file" id="file-input" accept="image/*" style="display:none;" onchange="handleFileSelect(event)">
 
     <script>
         let output = document.getElementById('output');
@@ -205,6 +210,37 @@
             div.appendChild(buttonContainer);
             return div;
         }
+
+        function handleFileSelect(event) {
+            const fileInput = document.getElementById('file-input');
+            const files = fileInput.files;
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+
+                // ファイルが画像であり、かつサイト上に存在していない場合のみ処理を行う
+                if (file.type.startsWith('image/') && !isImageAlreadyExists(file)) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        // ユニークな名前を生成
+                        const uniqueName = generateUniqueName(file.name);
+
+                        const div = createImageContainer(e.target.result, uniqueName, file.type, file.size);
+                        output.appendChild(div);
+
+                        savedImages.push({ src: e.target.result, name: uniqueName, type: file.type, size: file.size });
+                        localStorage.setItem('savedImages', JSON.stringify(savedImages));
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+
+        document.getElementById('drop-area').addEventListener('click', function () {
+            document.getElementById('file-input').click();
+        });
 
         function downloadImage(src, name) {
             let link = document.createElement('a');
