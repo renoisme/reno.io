@@ -1,14 +1,218 @@
 <!DOCTYPE html>
-<html ondragover="allowDrop(event)" ondrop="drop(event)">
+<html lang="en">
 
 <head>
-    <link href="styles/style.css" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>画像アップロード＆管理</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+        }
+
+        #drop-area {
+            width: 100%;
+            height: 150px;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        #output {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .image-container {
+            margin: 10px;
+            text-align: center;
+            width: 200px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .image-container:hover {
+            transform: scale(1.05);
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 120px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .image-info {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .file-name {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-around;
+        }
+    </style>
 </head>
 
-<body ondragover="allowDrop(event)" ondrop="drop(event)">
+<body>
+    <div id="drop-area" ondrop="drop(event);" ondragover="allowDrop(event);">
+        ドラッグ＆ドロップまたはここをクリックして画像をアップロード
+    </div>
     <div id="output"></div>
     <button id="delete_all">すべて削除</button>
-    <script src="/scripts/main.js"></script>
+
+    <script>
+        let output = document.getElementById('output');
+        let deleteAllButton = document.getElementById('delete_all');
+
+        let savedImages = JSON.parse(localStorage.getItem('savedImages')) || [];
+
+        savedImages.forEach(savedImage => {
+            let div = createImageContainer(savedImage.src, savedImage.name, savedImage.type, savedImage.size);
+            output.appendChild(div);
+        });
+
+        function drop(event) {
+            event.preventDefault();
+            let files = event.dataTransfer.files;
+
+            for (let i = 0; i < files.length; i++) {
+                let file = files[i];
+
+                // ドラッグされたアイテムが画像であり、かつサイト上に存在していない場合のみ処理を行う
+                if (file.type.startsWith('image/') && !isImageAlreadyExists(file)) {
+                    let reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        // ユニークな名前を生成
+                        let uniqueName = generateUniqueName(file.name);
+
+                        let div = createImageContainer(e.target.result, uniqueName, file.type, file.size);
+                        output.appendChild(div);
+
+                        savedImages.push({ src: e.target.result, name: uniqueName, type: file.type, size: file.size });
+                        localStorage.setItem('savedImages', JSON.stringify(savedImages));
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+
+        function allowDrop(event) {
+            event.preventDefault();
+
+            if (event.dataTransfer.items) {
+                for (let i = 0; i < event.dataTransfer.items.length; i++) {
+                    if (event.dataTransfer.items[i].kind === 'file' && event.dataTransfer.items[i].type.startsWith('image/')) {
+                        let file = event.dataTransfer.items[i].getAsFile();
+
+                        if (!isImageAlreadyExists(file)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        function isImageAlreadyExists(file) {
+            for (let i = 0; i < savedImages.length; i++) {
+                if (savedImages[i].name === file.name && savedImages[i].type === file.type) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        deleteAllButton.onclick = function () {
+            while (output.firstChild) {
+                output.removeChild(output.firstChild);
+            }
+
+            savedImages = [];
+            localStorage.removeItem('savedImages');
+        };
+
+        function generateUniqueName(originalName) {
+            let timestamp = new Date().getTime();
+            return `${timestamp}_${originalName}`;
+        }
+
+        function createImageContainer(src, name, type, size) {
+            let div = document.createElement('div');
+            div.className = 'image-container';
+            let img = document.createElement('img');
+            img.src = src;
+            let p = document.createElement('p');
+            p.className = 'image-info';
+            p.textContent = `Size: ${(size / 1024).toFixed(2)} KB`;
+            let fileName = document.createElement('p');
+            fileName.className = 'file-name';
+            fileName.textContent = name;
+            let buttonContainer = document.createElement('div');
+            buttonContainer.className = 'button-container';
+            let downloadButton = document.createElement('button');
+            downloadButton.textContent = 'ダウンロード';
+            downloadButton.onclick = function () {
+                downloadImage(src, name);
+            };
+            let deleteButton = document.createElement('button');
+            deleteButton.textContent = '削除';
+            deleteButton.onclick = function () {
+                output.removeChild(div);
+
+                savedImages = savedImages.filter(savedImage => savedImage.src !== src);
+                localStorage.setItem('savedImages', JSON.stringify(savedImages));
+            };
+            buttonContainer.appendChild(downloadButton);
+            buttonContainer.appendChild(deleteButton);
+            div.appendChild(img);
+            div.appendChild(p);
+            div.appendChild(fileName);
+            div.appendChild(buttonContainer);
+            return div;
+        }
+
+        function downloadImage(src, name) {
+            let link = document.createElement('a');
+            link.href = src;
+            link.download = name;
+            link.click();
+        }
+    </script>
 </body>
 
 </html>
